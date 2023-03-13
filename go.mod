@@ -1,6 +1,6 @@
 module github.com/alecthomas/errors
 
-go 1.17
+go 1.19
 
 require (
 	github.com/alecthomas/assert v1.0.0
