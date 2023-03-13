@@ -19,16 +19,6 @@ import (
 // Debug is set by the envar "$DEBUG" but may be overridden.
 var Debug = os.Getenv("DEBUG") != ""
 
-// Join returns an error that wraps the given errors.
-// Any nil error values are discarded.
-// Join returns nil if errs contains no non-nil values.
-// The error formats as the concatenation of the strings obtained
-// by calling the Error method of each element of errs, with a newline
-// between each string.
-func Join(errs ...error) error {
-	return errors.Join(errs...)
-}
-
 type herr struct {
 	cause error
 	file  string
