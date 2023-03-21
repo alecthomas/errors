@@ -114,6 +114,11 @@ func Is(err, target error) bool {
 	return errors.Is(err, target)
 }
 
+// As mirrors the stdlib errors.As function.
+func As(err error, target interface{}) bool {
+	return errors.As(err, target)
+}
+
 // Innermost returns true if err cannot be further unwrapped.
 func Innermost(err error) bool {
 	if err, ok := err.(interface{ Unwrap() []error }); ok && len(err.Unwrap()) > 0 {
