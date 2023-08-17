@@ -13,6 +13,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"strings"
 )
 
@@ -73,6 +74,9 @@ func (h *herr) format(trace bool) string {
 }
 
 var pkgPrefix = func() string {
+	if info, ok := debug.ReadBuildInfo(); ok && info.Main.Path != "" {
+		return info.Main.Path + "/"
+	}
 	_, file, _, _ := runtime.Caller(0)
 	return filepath.Dir(filepath.Dir(file)) + "/"
 }()
