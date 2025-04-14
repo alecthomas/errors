@@ -1,0 +1,10 @@
+output:
+  - success
+  - failure
+pre-push:
+  parallel: true
+  commands:
+    test:
+      run: go test ./...
+    lint:
+      run: golangci-lint run

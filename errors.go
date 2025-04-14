@@ -8,7 +8,7 @@
 package errors
 
 import (
-	"errors" // nolint: depguard
+	"errors" //nolint: depguard
 	"fmt"
 	"os"
 	"path/filepath"
@@ -93,7 +93,7 @@ func New(message string) error {
 }
 
 // Errorf creates a new error using fmt.Sprintf().
-func Errorf(format string, args ...interface{}) error {
+func Errorf(format string, args ...any) error {
 	return newErr(nil, fmt.Sprintf(format, args...))
 }
 
@@ -106,7 +106,7 @@ func Wrap(err error, message string) error {
 }
 
 // Wrapf chains a new fmt.Sprintf() formatted error to "err" if "err" is not nil.
-func Wrapf(err error, format string, args ...interface{}) error {
+func Wrapf(err error, format string, args ...any) error {
 	if err == nil {
 		return nil
 	}
@@ -119,7 +119,7 @@ func Is(err, target error) bool {
 }
 
 // As mirrors the stdlib errors.As function.
-func As(err error, target interface{}) bool {
+func As(err error, target any) bool {
 	return errors.As(err, target)
 }
 
