@@ -26,6 +26,6 @@ func TestUnwrapAllAndInnermost(t *testing.T) {
 		errstrings[i] = err.Error()
 		innermost[i] = Innermost(err)
 	}
-	assert.Equal(t, []string{"A", "B", "C: B", "D: A\nC: B"}, errstrings)
-	assert.Equal(t, []bool{true, true, false, false}, innermost)
+	assert.Equal(t, []string{"A", "B", "C: B", "A\nC: B", "D: A\nC: B"}, errstrings)
+	assert.Equal(t, []bool{true, true, false, false, false}, innermost)
 }

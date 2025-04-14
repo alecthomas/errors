@@ -11,5 +11,5 @@ import "errors"
 // by calling the Error method of each element of errs, with a newline
 // between each string.
 func Join(errs ...error) error {
-	return errors.Join(errs...)
+	return WithStack(errors.Join(errs...))
 }
