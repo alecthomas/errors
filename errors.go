@@ -141,17 +141,29 @@ func Unwrap(err error) error {
 
 // UnwrapAll recursively unwraps all errors in err, including all intermediate errors.
 func UnwrapAll(err error) []error {
+	return unwrapAll(err, false)
+}
+
+// UnwrapAllInnermost recursively unwraps all innermost errors in err.
+func UnwrapAllInnermost(err error) []error {
+	return unwrapAll(err, true)
+}
+
+func unwrapAll(err error, innermost bool) []error {
 	out := []error{}
-	if inner, ok := err.(interface{ Unwrap() []error }); ok {
+	switch inner := err.(type) {
+	case interface{ Unwrap() []error }:
 		for _, e := range inner.Unwrap() {
-			out = append(out, UnwrapAll(e)...)
+			out = append(out, unwrapAll(e, innermost)...)
 		}
-		return out
+	case interface{ Unwrap() error }:
+		if inner.Unwrap() != nil {
+			out = append(out, unwrapAll(inner.Unwrap(), innermost)...)
+		}
 	}
-	if inner, ok := err.(interface{ Unwrap() error }); ok && inner.Unwrap() != nil {
-		out = append(out, UnwrapAll(inner.Unwrap())...)
+	if !innermost || Innermost(err) {
+		out = append(out, err)
 	}
-	out = append(out, err)
 	return out
 }
 
