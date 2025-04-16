@@ -2,6 +2,7 @@ package errors
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/alecthomas/assert/v2"
@@ -12,9 +13,9 @@ func TestLineAndFormatting(t *testing.T) {
 	wrapErr := Wrap(err, "another error")
 	assert.Equal(t, `an error`, fmt.Sprintf("%s", err))
 	assert.Equal(t, `"an error"`, fmt.Sprintf("%q", err))
-	assert.Equal(t, `errors_test.go:11: an error`, fmt.Sprintf("%+v", err))
+	assert.Equal(t, `errors_test.go:12: an error`, fmt.Sprintf("%+v", err))
 	assert.Equal(t, `another error: an error`, fmt.Sprintf("%s", wrapErr))
-	assert.Equal(t, `errors_test.go:12: another error: errors_test.go:11: an error`, fmt.Sprintf("%+v", wrapErr))
+	assert.Equal(t, `errors_test.go:13: another error: errors_test.go:12: an error`, fmt.Sprintf("%+v", wrapErr))
 }
 
 func TestUnwrapAllAndInnermost(t *testing.T) {
@@ -45,4 +46,11 @@ func TestUnwrapAllInnermost(t *testing.T) {
 		errstrings[i] = err.Error()
 	}
 	assert.Equal(t, []string{"A", "B"}, errstrings)
+}
+
+func TestErrorf(t *testing.T) {
+	err := Errorf("an error: %w", os.ErrExist)
+	assert.Equal(t, `an error: file already exists`, fmt.Sprintf("%s", err))
+	assert.Equal(t, `"an error: file already exists"`, fmt.Sprintf("%q", err))
+	assert.Equal(t, `errors_test.go:52: an error: file already exists`, fmt.Sprintf("%+v", err))
 }

@@ -94,7 +94,7 @@ func New(message string) error {
 
 // Errorf creates a new error using fmt.Sprintf().
 func Errorf(format string, args ...any) error {
-	return newErr(nil, fmt.Sprintf(format, args...))
+	return newErr(fmt.Errorf(format, args...), "")
 }
 
 // Wrap chains a new error to "err" if it is not nil.
