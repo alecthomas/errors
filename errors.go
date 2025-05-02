@@ -177,10 +177,10 @@ func WithStack(err error) error {
 
 // WithStack2 chains source location information to an error if "err" is not nil.
 func WithStack2[T any](t T, err error) (T, error) {
-	return t, WithStack(err)
+	return t, newErr(err, "")
 }
 
 // WithStack3 chains source location information to an error if "err" is not nil.
 func WithStack3[T, U any](t T, u U, err error) (T, U, error) {
-	return t, u, WithStack(err)
+	return t, u, newErr(err, "")
 }
