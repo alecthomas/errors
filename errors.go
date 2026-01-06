@@ -123,6 +123,17 @@ func As(err error, target any) bool {
 	return errors.As(err, target)
 }
 
+// AsType mirrors the stdlib errors.AsType.
+func AsType[E error](err error) (E, bool) {
+	if err == nil {
+		var zero E
+		return zero, false
+	}
+	var target E
+	ok := errors.As(err, &target)
+	return target, ok
+}
+
 // Innermost returns true if err cannot be further unwrapped.
 func Innermost(err error) bool {
 	if err, ok := err.(interface{ Unwrap() []error }); ok && len(err.Unwrap()) > 0 {
